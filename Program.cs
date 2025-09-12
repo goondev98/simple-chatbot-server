@@ -9,9 +9,21 @@ builder.Services.AddOpenApi();
 // Step 1: Add CORS services
 builder.Services.AddCors(options =>
 {
+    var urls = Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
+
+    // If not set, try to get from launchSettings.json via configuration
+    if (string.IsNullOrEmpty(urls))
+    {
+        urls = builder.Configuration["applicationUrl"];
+    }
+
+    // Optional: fallback to a hardcoded default
+    urls ??= "http://localhost:5173";
+
+
     options.AddPolicy("AllowFrontend",
         policy => policy
-            .WithOrigins("http://localhost:5173")
+            .WithOrigins(urls)
             .AllowAnyHeader()
             .AllowAnyMethod());
 });

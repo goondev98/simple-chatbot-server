@@ -1,0 +1,19 @@
+services:
+  chatbot-server:
+    build:
+      context: ../  # Build context is the parent folder
+      dockerfile: ./docker/Dockerfile
+    container_name: chatbot-server
+    volumes:
+      - ../:/usr/src/app
+    ports:
+      - "5050:5050"   # Map container port 80 to host port 5000
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5050
+    networks:
+      - shared_network
+
+networks:
+  shared_network:
+    external: true

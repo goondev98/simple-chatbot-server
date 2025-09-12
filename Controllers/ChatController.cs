@@ -11,7 +11,7 @@ public class ChatController : ControllerBase
         _cvService = cvService;
     }
 
-    private record Conversation (int Id, string Name, string From, string To );
+    private record Conversation(int Id, string Name, string From, string To);
 
     [HttpGet("conversations")]
     public async Task<IActionResult> GetConversation()
@@ -19,4 +19,5 @@ public class ChatController : ControllerBase
         var conversations = await _cvService.GetConversations();
         return Ok(conversations);
     }
+
 }
